@@ -1,0 +1,181 @@
+/* ========================== Left Column ===================== */
+
+.ListContainer{
+    width: 530px;
+    height: 430px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.List__Title
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.List__Title h1
+{
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.List__Title button
+{
+    position: relative;
+    width: 200px;
+    height: 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+    color: rgb(15, 153, 146);
+    cursor: pointer;
+    z-index: 0;
+}
+
+.List__Title button::before{
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 1rem;
+}
+
+.List__Title button:active{
+    color: #000;
+}
+
+.List__Title button:active::after{
+    background: transparent;
+}
+
+.List__Title button:hover::before{
+    opacity: 1;
+}
+
+.List__Title button::after
+{
+     z-index: -1;
+     content: '';
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     background-image: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%);
+     left: 0;
+     top: 0;
+     border-radius: 1rem;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+/* ================ End ================ */
+
+.List
+{
+    width: 450px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .8rem;
+    border: .2rem solid #FFDEE9;
+    transition: 1s;
+    overflow: auto;
+    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+
+.List .dates{
+    width: 100%;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    border: .2rem solid #FFDEE9;
+    box-shadow: 1px 3px #000;
+    color: white;
+    padding: 3px 2px 3px;
+}
+
+.List .options
+{
+    margin-left: 0;
+    margin-right: .5rem;
+}
+
+
+
+.List .dates:nth-child(4n + 1){
+    background: linear-gradient(
+        90deg,
+        rgba(83,12,255,1) 0%,
+        rgba(155,0,250,1) 100%);
+}
+.List .dates:nth-child(4n + 2){
+    background: linear-gradient(
+        90deg,
+        rgba(255,12,241,1) 0%,
+        rgba(255,0,135,1) 100%
+    );
+}
+
+.List .dates:nth-child(4n + 3){
+    background: linear-gradient(
+        90deg,
+        rgba(20,159,255,1) 0%,
+        rgba(17,122,255,1) 100%
+    );
+}
+
+
+.List:hover
+{
+    box-shadow: .9rem .6rem 10px;
+}
+
+.List h3
+{
+    margin-left: 1rem;
+}
+
+.List h4
+{
+    padding-bottom: .3rem;
+}
+
+.List li
+{
+    list-style: none;
+    font-size: 1.5rem;
+    margin-left: 1.5rem;
+    justify-self: center;
+    align-items: center;
+}
+
+.List button
+{
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    outline: none;
+    font-size: 1.5rem;
+    margin-left: .3rem;
+    align-items: center;
+    cursor: pointer;
+    color: #000;
+}
