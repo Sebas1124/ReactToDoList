@@ -14,17 +14,43 @@ export const ListComponent = () => {
 
   const [currentTask, setCurrentTask] = useState();
 
-  const handleUpdateTask = (id, name) => {
-    setCurrentTask({id, name})
+  const UpdateStateCheckbox = (event, id) => {
+    
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id })
+    };
+    fetch(`http://localhost:8000/api/updatestate/${id}`, requestOptions)
+    
   }
 
+  const handleUpdateTask = (event,id, name) => {
+    event.preventDefault();
+    setCurrentTask({id, name})
+    setModal(true);
+}
 
-  const openmodal = () => {
+  const openmodal = (event) => {
+    event.preventDefault();
     setModal(true)
   }
 
   const closeModal = () => {
     setModal(false)
+  }
+
+  const deleteItem = (event,id) => {
+    event.preventDefault();
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id })
+    };
+    fetch(`http://localhost:8000/api/delete/${id}`, requestOptions)
+    
+
   }
 
 
@@ -48,7 +74,7 @@ export const ListComponent = () => {
 
           {/* Componente de Modal */}
 
-          {Modal ?<ModalComponent closeModal={ closeModal } task={ currentTask }/> :null}
+          {Modal ?<ModalComponent task={currentTask} closeModal={ closeModal } /> :null}
 
           <button onClick={ openmodal }>
               new
@@ -65,16 +91,32 @@ export const ListComponent = () => {
           return (
             <form className='dates' key={List.id}>
               <>
-                <div>
-                  <h3 id='ListName'>
+                <div className='name__check'>
+
+                  <input onChange={ (event) =>  UpdateStateCheckbox(event,List.id) } type="checkbox"/>
+
+                  {List.status == 2?<del id='ListName'>
                     {List.name}
-                  </h3>
+                  </del>:<h3 id='ListName'>
+                    {List.name}
+                  </h3>}
+
+                  {/* {checkbox?<h3 id='ListName'>
+                    {List.name}
+                  </h3>:<del id='ListName'>
+                    {List.name}
+                  </del>} */}
                 </div>
                 <div className='options'>
                   <h4>
                     {year + '-' + month + '-' + day} 
-                    <button onClick={currentTask}> <i className='uil uil-edit-alt'></i> </button> 
-                    <button><i className='uil uil-times'></i></button>
+                    <button onClick={ (event) =>  handleUpdateTask(event,List.id,List.name) }> 
+                      <i className='uil uil-edit-alt'></i> 
+                    </button> 
+
+                    <button onClick={  (event) =>  deleteItem(event,List.id) }>
+                      <i className='uil uil-times'></i>
+                    </button>
                   </h4>
                 </div>
               </>

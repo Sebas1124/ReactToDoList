@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 
 import './modal.css';
 
@@ -12,50 +12,61 @@ export const ModalComponent = ({closeModal, task}) => {
         setInputValue(target.value);
     }
 
-    const update = () => {
-    }
-    
+
     const onSubmit = (event) => {
         
         event.preventDefault();
+
+        if (task?.id){
+                const requestOptions = {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: InputValue })
+                };
+                fetch(`http://localhost:8000/api/update/${task.id}`, requestOptions)
+                
+                setInputValue('') 
+            }
+        else {
+
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: InputValue })
+            };
+            fetch('http://localhost:8000/api/save', requestOptions)
+            
+            setInputValue('') 
+
+        }
         
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: InputValue })
-        };
-        fetch('http://localhost:8000/api/save', requestOptions)
-        
-        setInputValue('') 
     }
 
     
 
   return (
     <>
-        <div id="demo-modal" className="modal" role="dialog">
+        <div className="modal" >
         <div className="model-inner">
             <div className="modal-header">
-            <h3>What to do today?</h3>
-            <button onClick={ closeModal } className="modal-close" data-id="demo-modal" aria-label="Close">
+            <h3>{task?`Edit this`:'What to do today?'}</h3>
+            <button onClick={ closeModal } className="modal-close">
                 &times;
             </button>
             </div>
                 <form onSubmit={ onSubmit }>
-                    <label htmlFor="work">Add one activity</label>
+                    <label>{task?`Edit ${task.name}`:'Add one activity'}</label>
                     <input 
                         type="text" 
-                        name="work" 
-                        id=""
                         onChange={ onInputChange }
-                        placeholder='New activity'         
+                        placeholder={task?task.name:`New activity`}
+                        value={InputValue}         
                         />
 
-                    <button>Add</button>   
+                    <button>{task?'Edit':'Create'}</button>   
                 </form>
             </div>
             </div>
-            <button className='modal-open' data-id='demo-modal'>New</button>
     </>
   )
 }
